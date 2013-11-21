@@ -12,7 +12,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.elib.dao.BookDAO;
+import com.elib.dao.OwnerDAO;
+import com.elib.dao.UserDAO;
 import com.elib.entity.Book;
+import com.elib.entity.Owner;
+import com.elib.entity.User;
 import com.elib.tools.folder.FolderBean;
 import com.elib.tools.folder.FolderFilter;
 import com.elib.tools.folder.FolderScanner;
@@ -25,28 +29,41 @@ import com.elib.tools.transliterator.BookTransliterator;
  */
 @Component
 public class DataBaseTools {
+
   @Autowired
-  BookDAO bookDAO;
+  private BookDAO bookDAO;
+  @Autowired
+  private UserDAO userDAO;
+  @Autowired
+  private OwnerDAO ownerDAO;
 
   @SuppressWarnings("resource")
   public DataBaseTools() {
-    ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath*:applicationContext.xml");
-    AutowireCapableBeanFactory acbFactory = ctx.getAutowireCapableBeanFactory();
+    ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath*:applicationContext.xml");
+    AutowireCapableBeanFactory acbFactory = applicationContext.getAutowireCapableBeanFactory();
     acbFactory.autowireBean(this);
   }
 
-  public void doJob() {
+  public void fillDataBase(String path, String userEmail) {
+    FolderBean folderBean;
     FolderScanner scanner = new FolderScanner();
     FolderFilter filter = new FolderFilter();
     FileNameParser parser = new FileNameParser();
-    FolderBean folderBean = scanner.scanFolder("D:\\Diploma\\Info\\tmp", true);
-    folderBean = filter.filterFolderFiles(folderBean);
-    List<Book> booksPr = parser.parseFileNameToObject(folderBean);
-    System.out.println(booksPr.size());
     BookTransliterator bookTransliterator = new BookTransliterator();
-    List<Book> booksTr = bookTransliterator.transliterateBooks(booksPr);
-    System.out.println(booksTr.size());
-    bookDAO.save(booksTr.get(0));
+
+    folderBean = scanner.scanFolder(path, true);
+    folderBean = filter.filterFolderFiles(folderBean);
+
+    List<Book> booksParsed = parser.parseFileNameToObject(folderBean);
+    System.out.println(booksParsed.size());
+    List<Book> booksTransliterated = bookTransliterator.transliterateBooks(booksParsed);
+    System.out.println(booksTransliterated.size());
+
+    User user = userDAO.findByEmail(userEmail);
+    for (Book book : booksTransliterated){
+      Owner owner = new Owner(book, user);
+      ownerDAO.save(owner);
+    }
   }
 
   /**
@@ -55,7 +72,7 @@ public class DataBaseTools {
 
   public static void main(String[] args) {
     DataBaseTools baseFiller = new DataBaseTools();
-    baseFiller.doJob();
+    baseFiller.fillDataBase("D:\\Diploma\\Info\\tmp\\", "admin@admin.com");
   }
 
 }

@@ -5,6 +5,11 @@ import java.util.List;
 import com.elib.dao.BookDAO;
 import com.elib.entity.Book;
 
+/**
+ * 
+ * @author Pavlo Romankevych
+ * 
+ */
 @SuppressWarnings("serial")
 public class BookDAOImpl extends GenericDAOImpl<Book, Integer> implements BookDAO{
 

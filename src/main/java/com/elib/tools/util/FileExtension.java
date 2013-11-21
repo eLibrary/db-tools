@@ -18,6 +18,7 @@ public final class FileExtension {
   public static final String DJVU = "djvu";
   public static final String DOC = "doc";
   public static final String DOCX = "docx";
+  public static final String CHM = "chm";
 
   public static List<String> getExtensions() {
     return extensions;
@@ -28,5 +29,6 @@ public final class FileExtension {
     extensions.add(DJVU);
     extensions.add(DOC);
     extensions.add(DOCX);
+    extensions.add(CHM);
   }
 }
