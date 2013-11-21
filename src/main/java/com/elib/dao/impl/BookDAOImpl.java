@@ -24,11 +24,20 @@ public class BookDAOImpl extends GenericDAOImpl<Book, Integer> implements BookDA
   @Override
   @Transactional(readOnly = true)
   public Book findByIdentifier(String identifier) {
-    Query query = getEntityManager().createQuery("select o from User o where o.identifier = :identifier");
+    Query query = getEntityManager().createQuery("select u from User u where u.identifier = :identifier");
     query.setParameter("identifier", identifier);
     @SuppressWarnings("unchecked")
     List<Book> res = query.setMaxResults(1).getResultList();
     return res.size() > 0 ? res.get(0) : null;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<Book> getAllBooks() {
+    Query query = getEntityManager().createQuery("select u from User u");
+    @SuppressWarnings("unchecked")
+    List<Book> res = query.getResultList();
+    return res.size() > 0 ? res : null;
   }
 
 }

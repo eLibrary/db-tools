@@ -5,6 +5,7 @@
 	<artifactId>db-tools</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>db-tools</name>
+	<packaging>jar</packaging>
 	<description>admin DB tools</description>
 
 	<developers>
