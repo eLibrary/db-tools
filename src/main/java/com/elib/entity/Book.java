@@ -324,7 +324,7 @@ public class Book implements java.io.Serializable, IEntity<Integer> {
     this.timeLastModified = timeLastModified;
   }
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
   public Set<Owner> getOwners() {
     return this.owners;
   }
@@ -333,7 +333,7 @@ public class Book implements java.io.Serializable, IEntity<Integer> {
     this.owners = owners;
   }
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
   public Set<UserLibrary> getUserlibraries() {
     return this.userlibraries;
   }

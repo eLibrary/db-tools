@@ -2,6 +2,10 @@ package com.elib.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import com.elib.dao.BookDAO;
 import com.elib.entity.Book;
 
@@ -11,28 +15,20 @@ import com.elib.entity.Book;
  * 
  */
 @SuppressWarnings("serial")
-public class BookDAOImpl extends GenericDAOImpl<Book, Integer> implements BookDAO{
+public class BookDAOImpl extends GenericDAOImpl<Book, Integer> implements BookDAO {
 
   public BookDAOImpl() {
     super(Book.class);
   }
 
   @Override
-  public List<Book> findByTitle(String title) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public List<Book> findByAuthor(String author) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
+  @Transactional(readOnly = true)
   public Book findByIdentifier(String identifier) {
-    // TODO Auto-generated method stub
-    return null;
+    Query query = getEntityManager().createQuery("select o from User o where o.identifier = :identifier");
+    query.setParameter("identifier", identifier);
+    @SuppressWarnings("unchecked")
+    List<Book> res = query.setMaxResults(1).getResultList();
+    return res.size() > 0 ? res.get(0) : null;
   }
 
 }

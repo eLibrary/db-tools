@@ -1,7 +1,6 @@
 package com.elib.dao;
 
 import java.io.Serializable;
-import java.util.List;
 
 import com.elib.entity.Book;
 
@@ -11,20 +10,6 @@ import com.elib.entity.Book;
  *
  */
 public interface BookDAO extends Serializable, GenericDAO<Book, Integer> {
-  
-  /**
-   * 
-   * @param title
-   * @return books
-   */
-  List<Book> findByTitle(String title);
-  
-  /**
-   * 
-   * @param author
-   * @return books
-   */
-  List<Book> findByAuthor(String author);
   
   /**
    * 

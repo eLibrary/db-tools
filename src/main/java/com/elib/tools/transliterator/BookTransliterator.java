@@ -1,6 +1,5 @@
 package com.elib.tools.transliterator;
 
-import java.util.Date;
 import java.util.List;
 
 import com.elib.entity.Book;
@@ -24,7 +23,6 @@ public class BookTransliterator {
 				list.get(i).setSeries(transliterator.translateIntoRussian(list.get(i).getSeries()));
 				list.get(i).setPublisher(transliterator.translateIntoRussian(list.get(i).getPublisher()));
 				list.get(i).setEdition(transliterator.translateIntoRussian(list.get(i).getEdition()));
-				list.get(i).setTimeAdded(new Date());
 			}
 			System.out.println(list.get(i));
 		}

@@ -4,6 +4,7 @@
 package com.elib.tools;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Component;
 
 import com.elib.dao.BookDAO;
 import com.elib.dao.OwnerDAO;
+import com.elib.dao.RoleDAO;
 import com.elib.dao.UserDAO;
+import com.elib.dao.UserLibraryDAO;
 import com.elib.entity.Book;
 import com.elib.entity.Owner;
 import com.elib.entity.User;
@@ -36,6 +39,10 @@ public class DataBaseTools {
   private UserDAO userDAO;
   @Autowired
   private OwnerDAO ownerDAO;
+  @Autowired
+  private RoleDAO roleDAO;
+  @Autowired
+  private UserLibraryDAO userLibraryDAO;
 
   @SuppressWarnings("resource")
   public DataBaseTools() {
@@ -65,6 +72,18 @@ public class DataBaseTools {
       ownerDAO.save(owner);
     }
   }
+  
+  public void test(String email){
+    User user = userDAO.findByEmail(email);
+    List<Owner> ow = ownerDAO.findByUser(user);
+    for (Owner o : ow){
+      System.out.println(o.getBook());
+    }
+    Set<User> urs = roleDAO.findByRole("admin").get(0).getUsers();
+    for (User u : urs){
+      System.out.println(u.getFirstName());
+    }
+  }
 
   /**
    * @param args
@@ -72,7 +91,8 @@ public class DataBaseTools {
 
   public static void main(String[] args) {
     DataBaseTools baseFiller = new DataBaseTools();
-    baseFiller.fillDataBase("D:\\Diploma\\Info\\tmp\\", "admin@admin.com");
+    //baseFiller.fillDataBase("D:\\Diploma\\Info\\", "admin@admin.com");
+    baseFiller.test("admin@admin.com");
   }
 
 }

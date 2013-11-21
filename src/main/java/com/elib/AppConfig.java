@@ -7,10 +7,14 @@ import org.springframework.context.annotation.Scope;
 
 import com.elib.dao.BookDAO;
 import com.elib.dao.OwnerDAO;
+import com.elib.dao.RoleDAO;
 import com.elib.dao.UserDAO;
+import com.elib.dao.UserLibraryDAO;
 import com.elib.dao.impl.BookDAOImpl;
 import com.elib.dao.impl.OwnerDAOImpl;
+import com.elib.dao.impl.RoleDAOImpl;
 import com.elib.dao.impl.UserDAOImpl;
+import com.elib.dao.impl.UserLibraryDAOImpl;
 
 /**
  * 
@@ -38,4 +42,15 @@ public class AppConfig {
     return new OwnerDAOImpl();
   }
 
+  @Bean
+  @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+  public UserLibraryDAO userLibraryDAO() {
+    return new UserLibraryDAOImpl();
+  }
+
+  @Bean
+  @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+  public RoleDAO roleDAO() {
+    return new RoleDAOImpl();
+  }
 }

@@ -49,7 +49,7 @@ public class UserLibrary implements java.io.Serializable, IEntity<Integer> {
     this.id = id;
   }
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "BookID")
   public Book getBook() {
     return this.book;
@@ -59,7 +59,7 @@ public class UserLibrary implements java.io.Serializable, IEntity<Integer> {
     this.book = book;
   }
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "UserID")
   public User getUser() {
     return this.user;

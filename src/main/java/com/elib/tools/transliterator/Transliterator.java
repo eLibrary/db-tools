@@ -182,7 +182,7 @@ public class Transliterator {
 	private String replaceDown(String word){
 		eng = false;
 		List<String> array = toList(word);
-		for(int i = 0; i < array.size(); i++){
+		for(int i = 0; i < array.size()-1; i++){
 			if( array.get(i).equals("_") && array.get(i+1).equals("_")){
 				if(eng == true) eng = false;
 				else eng = true;
