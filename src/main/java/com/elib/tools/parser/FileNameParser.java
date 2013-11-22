@@ -3,6 +3,11 @@
  */
 package com.elib.tools.parser;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,10 +27,41 @@ public class FileNameParser {
 
   public List<Book> parseFileNameToObject(FolderBean folderBean) {
     List<Book> books = new ArrayList<Book>();
-    for (String fileName : folderBean.getFileNameList()) {
-      books.add(parseFileName(fileName));
+    for (File file : folderBean.getFiles()) {
+      Book book = parseFileName(file.getName());
+      book.setTimeAdded(new Date());
+      book.setAbsolutePath(file.getAbsolutePath());
+      book.setFilename(file.getName());
+      book.setFilesize(file.getTotalSpace());
+      book.setMd5(calculateChecksumMD5(file));
+      book.setDownloadUrl(Constants.ELIBRARY_HOST + file.getPath());
+      books.add(book);
     }
     return books;
+  }
+
+  private String calculateChecksumMD5(File file) {
+    String checksum = "";
+    try {
+      FileInputStream fis = new FileInputStream(file);
+      byte[] buffer = new byte[1024];
+      MessageDigest complete = MessageDigest.getInstance("MD5");
+      int numRead;
+      do {
+        numRead = fis.read(buffer);
+        if (numRead > 0) {
+          complete.update(buffer, 0, numRead);
+        }
+      } while (numRead != -1);
+      fis.close();
+      byte[] bf = complete.digest();
+      for (int i = 0; i < bf.length; i++) {
+        checksum += Integer.toString((bf[i] & 0xff) + 0x100, 16).substring(1);
+      }
+    } catch (IOException | NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
+    return checksum;
   }
 
   private Container parseStringAndGetValue(String str, String valuePattern, int offsetBegin, int offsetEnd, boolean trim) {
@@ -127,8 +163,6 @@ public class FileNameParser {
         book.setTitle(author.getNewString());
       }
     }
-    book.setTimeAdded(new Date());
-    System.out.println(book);
     return book;
   }
 

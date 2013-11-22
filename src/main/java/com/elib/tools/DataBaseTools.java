@@ -67,21 +67,25 @@ public class DataBaseTools {
     System.out.println(booksTransliterated.size());
 
     User user = userDAO.findByEmail(userEmail);
-    for (Book book : booksTransliterated){
+    for (Book book : booksTransliterated) {
       Owner owner = new Owner(book, user);
       ownerDAO.save(owner);
     }
   }
-  
-  public void test(String email){
+
+  public void test(String email) {
     User user = userDAO.findByEmail(email);
-    List<Owner> ow = ownerDAO.findByUser(user);
-    for (Owner o : ow){
+    List<Owner> owners = ownerDAO.findByUser(user);
+    for (Owner o : owners) {
       System.out.println(o.getBook());
     }
-    Set<User> urs = roleDAO.findByRole("admin").get(0).getUsers();
-    for (User u : urs){
+    Set<User> users = roleDAO.findByRole("admin").get(0).getUsers();
+    for (User u : users) {
       System.out.println(u.getFirstName());
+    }
+    List<Book> books = bookDAO.findByAll("Eckel");
+    for (Book b : books) {
+      System.out.println(b.getFilename());
     }
   }
 
@@ -91,7 +95,7 @@ public class DataBaseTools {
 
   public static void main(String[] args) {
     DataBaseTools baseFiller = new DataBaseTools();
-    //baseFiller.fillDataBase("D:\\Diploma\\Info\\", "admin@admin.com");
+    //baseFiller.fillDataBase("D:\\Diploma\\Info\\tmp\\", "admin@admin.com");
     baseFiller.test("admin@admin.com");
   }
 

@@ -21,6 +21,13 @@ public interface BookDAO extends Serializable, GenericDAO<Book, Integer> {
   
   /**
    * 
+   * @param input string
+   * @return books
+   */
+  List<Book> findByAll(String str);
+  
+  /**
+   * 
    * @return all books
    */
   List<Book> getAllBooks();

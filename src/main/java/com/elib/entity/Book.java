@@ -49,7 +49,8 @@ public class Book implements java.io.Serializable, IEntity<Integer> {
   private Long filesize;
   private String absolutePath;
   private String downloadUrl;
-  private Character md5;
+  private String md5;
+  private String searchString;
   private Date timeAdded;
   private Date timeLastModified;
   private Set<Owner> owners = new HashSet<Owner>(0);
@@ -65,8 +66,8 @@ public class Book implements java.io.Serializable, IEntity<Integer> {
   public Book(String title, String author, String series, String edition, String publisher, Integer year,
           String language, String identifier, Boolean landscape, Boolean ocr, Boolean kromsated, Boolean color,
           Boolean bookmarks, Boolean kromsatedByScanmagic, Integer dpi, Integer pages, String extension,
-          String filename, Long filesize, String absolutePath, String downloadUrl, Character md5, Date timeAdded,
-          Date timeLastModified, Set<Owner> owners, Set<UserLibrary> userlibraries) {
+          String filename, Long filesize, String absolutePath, String downloadUrl, String md5, String searchString,
+          Date timeAdded, Date timeLastModified, Set<Owner> owners, Set<UserLibrary> userlibraries) {
     this.title = title;
     this.author = author;
     this.series = series;
@@ -89,6 +90,7 @@ public class Book implements java.io.Serializable, IEntity<Integer> {
     this.absolutePath = absolutePath;
     this.downloadUrl = downloadUrl;
     this.md5 = md5;
+    this.searchString = searchString;
     this.timeAdded = timeAdded;
     this.timeLastModified = timeLastModified;
     this.owners = owners;
@@ -295,13 +297,22 @@ public class Book implements java.io.Serializable, IEntity<Integer> {
     this.downloadUrl = downloadUrl;
   }
 
-  @Column(name = "MD5", length = 1)
-  public Character getMd5() {
+  @Column(name = "MD5", length = 200)
+  public String getMd5() {
     return this.md5;
   }
 
-  public void setMd5(Character md5) {
+  public void setMd5(String md5) {
     this.md5 = md5;
+  }
+
+  @Column(name = "SearchString", length = 500)
+  public String getSearchString() {
+    return this.searchString;
+  }
+
+  public void setSearchString(String searchString) {
+    this.searchString = searchString;
   }
 
   @Temporal(TemporalType.TIMESTAMP)
@@ -341,18 +352,6 @@ public class Book implements java.io.Serializable, IEntity<Integer> {
   public void setUserlibraries(Set<UserLibrary> userlibraries) {
     this.userlibraries = userlibraries;
   }
-  
-  @Override
-  public String toString() {
-    return "Book [id=" + id + ", title=" + title + ", author=" + author + ", series=" + series + ", edition=" + edition
-            + ", publisher=" + publisher + ", year=" + year + ", language=" + language + ", identifier=" + identifier
-            + ", landscape=" + landscape + ", ocr=" + ocr + ", kromsated=" + kromsated + ", color=" + color
-            + ", bookmarks=" + bookmarks + ", kromsatedByScanmagic=" + kromsatedByScanmagic + ", dpi=" + dpi
-            + ", pages=" + pages + ", extension=" + extension + ", filename=" + filename + ", filesize=" + filesize
-            + ", absolutePath=" + absolutePath + ", downloadUrl=" + downloadUrl + ", md5=" + md5 + ", timeAdded="
-            + timeAdded + ", timeLastModified=" + timeLastModified + ", owners=" + owners + ", userlibraries="
-            + userlibraries + "]";
-  }
 
   @Override
   public int hashCode() {
@@ -379,6 +378,7 @@ public class Book implements java.io.Serializable, IEntity<Integer> {
     result = prime * result + ((owners == null) ? 0 : owners.hashCode());
     result = prime * result + ((pages == null) ? 0 : pages.hashCode());
     result = prime * result + ((publisher == null) ? 0 : publisher.hashCode());
+    result = prime * result + ((searchString == null) ? 0 : searchString.hashCode());
     result = prime * result + ((series == null) ? 0 : series.hashCode());
     result = prime * result + ((timeAdded == null) ? 0 : timeAdded.hashCode());
     result = prime * result + ((timeLastModified == null) ? 0 : timeLastModified.hashCode());
@@ -502,6 +502,11 @@ public class Book implements java.io.Serializable, IEntity<Integer> {
         return false;
     } else if (!publisher.equals(other.publisher))
       return false;
+    if (searchString == null) {
+      if (other.searchString != null)
+        return false;
+    } else if (!searchString.equals(other.searchString))
+      return false;
     if (series == null) {
       if (other.series != null)
         return false;
@@ -534,6 +539,19 @@ public class Book implements java.io.Serializable, IEntity<Integer> {
       return false;
     return true;
   }
+
+  @Override
+  public String toString() {
+    return "Book [id=" + id + ", title=" + title + ", author=" + author + ", series=" + series + ", edition=" + edition
+            + ", publisher=" + publisher + ", year=" + year + ", language=" + language + ", identifier=" + identifier
+            + ", landscape=" + landscape + ", ocr=" + ocr + ", kromsated=" + kromsated + ", color=" + color
+            + ", bookmarks=" + bookmarks + ", kromsatedByScanmagic=" + kromsatedByScanmagic + ", dpi=" + dpi
+            + ", pages=" + pages + ", extension=" + extension + ", filename=" + filename + ", filesize=" + filesize
+            + ", absolutePath=" + absolutePath + ", downloadUrl=" + downloadUrl + ", md5=" + md5 + ", searchString="
+            + searchString + ", timeAdded=" + timeAdded + ", timeLastModified=" + timeLastModified + ", owners="
+            + owners + ", userlibraries=" + userlibraries + "]";
+  }
   
   
+
 }

@@ -8,6 +8,7 @@ package com.elib.tools.util;
 
 public final class Constants {
   
+  public final static String ELIBRARY_HOST = "http://elibrary.com/";
   public final static String SCAN_RESULT_FILE_NAME = "ScanResult.txt";
   public final static String FILTER_RESULT_FILE_NAME = "FilterResult.txt";
   public static final String ENGLISH_LANGUAGE = "en";
