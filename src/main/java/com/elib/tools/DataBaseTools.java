@@ -20,7 +20,6 @@ import com.elib.dao.UserLibraryDAO;
 import com.elib.entity.Book;
 import com.elib.entity.Owner;
 import com.elib.entity.User;
-import com.elib.service.BookService;
 import com.elib.tools.folder.FolderBean;
 import com.elib.tools.folder.FolderFilter;
 import com.elib.tools.folder.FolderScanner;
@@ -89,11 +88,9 @@ public class DataBaseTools {
    */
 
   public static void main(String[] args) {
-    //DataBaseTools baseFiller = new DataBaseTools();
-    //baseFiller.fillDataBase("D:\\Diploma\\Info\\tmp\\", "admin@admin.com");
-    // baseFiller.test("admin@admin.com");
-    BookService service = new BookService();
-    System.out.println(service.searchBook("Guide"));
+    DataBaseTools baseFiller = new DataBaseTools();
+    baseFiller.fillDataBase("D:\\Diploma\\Info\\tmp\\", "admin@admin.com");
+    baseFiller.test("admin@admin.com");
   }
 
 }
