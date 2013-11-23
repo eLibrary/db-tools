@@ -3,88 +3,21 @@
  */
 package com.elib.tools.parser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.elib.entity.Book;
-import com.elib.tools.folder.FolderBean;
 import com.elib.tools.util.Constants;
+import com.elib.tools.util.Container;
 import com.elib.tools.util.FileExtension;
 
 /**
  * @author Pavlo Romankevych
  * 
  */
-public class FileNameParser {
+public class BookParser {
 
-  public List<Book> parseFileNameToObject(FolderBean folderBean) {
-    List<Book> books = new ArrayList<Book>();
-    for (File file : folderBean.getFiles()) {
-      Book book = parseFileName(file.getName());
-      book.setTimeAdded(new Date());
-      book.setAbsolutePath(file.getAbsolutePath());
-      book.setFilename(file.getName());
-      book.setFilesize(file.getTotalSpace());
-      book.setMd5(calculateChecksumMD5(file));
-      book.setDownloadUrl(Constants.ELIBRARY_HOST + file.getPath());
-      books.add(book);
-    }
-    return books;
-  }
-
-  private String calculateChecksumMD5(File file) {
-    String checksum = "";
-    try {
-      FileInputStream fis = new FileInputStream(file);
-      byte[] buffer = new byte[1024];
-      MessageDigest complete = MessageDigest.getInstance("MD5");
-      int numRead;
-      do {
-        numRead = fis.read(buffer);
-        if (numRead > 0) {
-          complete.update(buffer, 0, numRead);
-        }
-      } while (numRead != -1);
-      fis.close();
-      byte[] bf = complete.digest();
-      for (int i = 0; i < bf.length; i++) {
-        checksum += Integer.toString((bf[i] & 0xff) + 0x100, 16).substring(1);
-      }
-    } catch (IOException | NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    }
-    return checksum;
-  }
-
-  private Container parseStringAndGetValue(String str, String valuePattern, int offsetBegin, int offsetEnd, boolean trim) {
-    Container container = new Container();
-    Pattern pattern = Pattern.compile(valuePattern);
-    Matcher matcher;
-    String result = "";
-    if (trim) {
-      matcher = pattern.matcher(str.replaceAll("(\\s)", ""));
-    } else {
-      matcher = pattern.matcher(str);
-    }
-    if (matcher.find()) {
-      result = matcher.group(0);
-      int endIndex = matcher.group(0).length() - offsetEnd;
-      container.setValue(result.substring(offsetBegin, endIndex));
-    }
-    String newStr = str.replace(result, "");
-    container.setNewString(newStr);
-    return container;
-  }
-
-  private Book parseFileName(String str) {
+  public Book parseFileName(String str) {
     Book book = new Book();
     Container kromsated = parseStringAndGetValue(str, "(\\()(K{1})(\\))", 1, 1, true);
     book.setKromsated(!kromsated.getValue().isEmpty());
@@ -166,4 +99,23 @@ public class FileNameParser {
     return book;
   }
 
+  private Container parseStringAndGetValue(String str, String valuePattern, int offsetBegin, int offsetEnd, boolean trim) {
+    Container container = new Container();
+    Pattern pattern = Pattern.compile(valuePattern);
+    Matcher matcher;
+    String result = "";
+    if (trim) {
+      matcher = pattern.matcher(str.replaceAll("(\\s)", ""));
+    } else {
+      matcher = pattern.matcher(str);
+    }
+    if (matcher.find()) {
+      result = matcher.group(0);
+      int endIndex = matcher.group(0).length() - offsetEnd;
+      container.setValue(result.substring(offsetBegin, endIndex));
+    }
+    String newStr = str.replace(result, "");
+    container.setNewString(newStr);
+    return container;
+  }
 }

@@ -23,7 +23,6 @@ public class FolderFilter extends FolderProcessor {
       for (String extension : FileExtension.getExtensions()) {
         if (isAllowedExtension(file, extension)) {
           getFolderBean().getFiles().add(file);
-          getFolderBean().getFileNameList().add(file.getName());
         }
       }
     }
@@ -38,10 +37,9 @@ public class FolderFilter extends FolderProcessor {
     for (File file : folderBean.getFiles()) {
       if (isAllowedExtension(file, extension)) {
         getFolderBean().getFiles().add(file);
-        getFolderBean().getFileNameList().add(file.getName());
       }
     }
-    if (getFolderBean().getFileNameList() != null) {
+    if (getFolderBean().getFiles() != null) {
       createResultFile(getFolderBean().getFiles(), "(" + extension + ")" + Constants.FILTER_RESULT_FILE_NAME);
     }
     return getFolderBean();

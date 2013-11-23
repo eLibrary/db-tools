@@ -34,7 +34,6 @@ public class FolderScanner extends FolderProcessor {
       if (file.isFile()) {
         if (!checkAndDeleteResultFiles(file)) {
           getFolderBean().getFiles().add(file);
-          getFolderBean().getFileNameList().add(file.getName());
         }
       } else if (scanSubfolder==true){
         scan(file.getAbsolutePath(), scanSubfolder);        

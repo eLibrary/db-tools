@@ -15,7 +15,6 @@ public class FolderBean {
 
   private final String folderName;
   private List<File> files = new ArrayList<File>();
-  private List<String> fileNameList = new ArrayList<String>();
   private File resultFile;
 
   public FolderBean(String folderName) {
@@ -34,14 +33,6 @@ public class FolderBean {
     this.files = files;
   }
 
-  public List<String> getFileNameList() {
-    return fileNameList;
-  }
-
-  public void setFileNameList(List<String> fileNameList) {
-    this.fileNameList = fileNameList;
-  }
-
   public File getResultFile() {
     return resultFile;
   }
@@ -54,7 +45,6 @@ public class FolderBean {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((fileNameList == null) ? 0 : fileNameList.hashCode());
     result = prime * result + ((files == null) ? 0 : files.hashCode());
     result = prime * result + ((folderName == null) ? 0 : folderName.hashCode());
     result = prime * result + ((resultFile == null) ? 0 : resultFile.hashCode());
@@ -70,11 +60,6 @@ public class FolderBean {
     if (getClass() != obj.getClass())
       return false;
     FolderBean other = (FolderBean) obj;
-    if (fileNameList == null) {
-      if (other.fileNameList != null)
-        return false;
-    } else if (!fileNameList.equals(other.fileNameList))
-      return false;
     if (files == null) {
       if (other.files != null)
         return false;

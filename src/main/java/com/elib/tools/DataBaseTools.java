@@ -23,8 +23,6 @@ import com.elib.entity.User;
 import com.elib.tools.folder.FolderBean;
 import com.elib.tools.folder.FolderFilter;
 import com.elib.tools.folder.FolderScanner;
-import com.elib.tools.parser.FileNameParser;
-import com.elib.tools.transliterator.BookTransliterator;
 
 /**
  * @author Pavlo Romankevych
@@ -55,19 +53,15 @@ public class DataBaseTools {
     FolderBean folderBean;
     FolderScanner scanner = new FolderScanner();
     FolderFilter filter = new FolderFilter();
-    FileNameParser parser = new FileNameParser();
-    BookTransliterator bookTransliterator = new BookTransliterator();
+    BookHandler handler = new BookHandler();
 
     folderBean = scanner.scanFolder(path, true);
     folderBean = filter.filterFolderFiles(folderBean);
 
-    List<Book> booksParsed = parser.parseFileNameToObject(folderBean);
-    System.out.println(booksParsed.size());
-    List<Book> booksTransliterated = bookTransliterator.transliterateBooks(booksParsed);
-    System.out.println(booksTransliterated.size());
+    List<Book> books = handler.processBooks(folderBean.getFiles());
 
     User user = userDAO.findByEmail(userEmail);
-    for (Book book : booksTransliterated) {
+    for (Book book : books) {
       Owner owner = new Owner(book, user);
       ownerDAO.save(owner);
     }
@@ -95,8 +89,8 @@ public class DataBaseTools {
 
   public static void main(String[] args) {
     DataBaseTools baseFiller = new DataBaseTools();
-    //baseFiller.fillDataBase("D:\\Diploma\\Info\\tmp\\", "admin@admin.com");
-    baseFiller.test("admin@admin.com");
+    baseFiller.fillDataBase("D:\\Diploma\\Info\\tmp\\", "admin@admin.com");
+    // baseFiller.test("admin@admin.com");
   }
 
 }
