@@ -71,9 +71,13 @@ public class BookHandler {
     searchString.append(book.getTitle());
     searchString.append(book.getAuthor());
     searchString.append(book.getSeries());
+    searchString.append(" ");
     searchString.append(book.getEdition());
+    searchString.append(" ");
     searchString.append(book.getPublisher());
+    searchString.append(" ");
     searchString.append(book.getYear());
+    searchString.append(" ");
     searchString.append(book.getIdentifier());
     return searchString.toString();
   }
