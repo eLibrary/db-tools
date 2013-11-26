@@ -32,11 +32,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.elibrary.book.processor</groupId>
-			<artifactId>book-processor</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.jdbc.connector}</version>
