@@ -15,5 +15,13 @@ public final class Constants {
   public static final String RUSSIAN_LANGUAGE = "ru";
   public static final Integer DEFAULT_DPI_DJVU = 300;
   public static final Integer DEFAULT_DPI_PDF = 600;
+  public static final String USER_FIRSTNAME_KEY = "firstName";
+  public static final String USER_LASTNAME_KEY = "lastName";
+  public static final String USER_EMAIL_KEY = "email";
+  public static final String USER_PASSWORD_KEY = "password";
+  public static final String USER_DATE_OF_BIRTHD_KEY = "DOB";
+  public static final String USER_ROLE_ADMIN = "admin";
+  public static final String USER_ROLE_GUEST = "guest";
+  public static final String USER_ROLE_REGISTERED = "user";
   
 }

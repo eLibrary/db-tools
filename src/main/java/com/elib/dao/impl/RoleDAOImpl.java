@@ -18,12 +18,12 @@ public class RoleDAOImpl extends GenericDAOImpl<Role, Integer> implements RoleDA
 
   @Override
   @Transactional(readOnly = true)
-  public List<Role> findByRole(String role) {
+  public Role findByRole(String role) {
     Query query = getEntityManager().createQuery("select r from Role r where r.role = :role");
     query.setParameter("role", role);
     @SuppressWarnings("unchecked")
     List<Role> res = query.getResultList();
-    return res.size() > 0 ? res : null;
+    return res.size() > 0 ? res.get(0) : null;
   }
 
 }

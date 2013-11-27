@@ -57,7 +57,6 @@ public class DataBaseTools {
 
     folderBean = scanner.scanFolder(path, true);
     folderBean = filter.filterFolderFiles(folderBean);
-
     List<Book> books = handler.processBooks(folderBean.getFiles());
 
     User user = userDAO.findByEmail(userEmail);
@@ -73,7 +72,7 @@ public class DataBaseTools {
     for (Owner o : owners) {
       System.out.println(o.getBook());
     }
-    Set<User> users = roleDAO.findByRole("admin").get(0).getUsers();
+    Set<User> users = roleDAO.findByRole("admin").getUsers();
     for (User u : users) {
       System.out.println(u.getFirstName());
     }
